@@ -347,10 +347,11 @@ void taskHeartbeatStart(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	    HAL_GPIO_WritePin(BOARD_LED0_GPIO_Port, BOARD_LED0_Pin, GPIO_PIN_RESET);
-	    osDelay(10);
-	    HAL_GPIO_WritePin(BOARD_LED0_GPIO_Port, BOARD_LED0_Pin, GPIO_PIN_SET);
-	    osDelay(1990);
+//	   da li uopste ima board_led  i gde je?
+//	    HAL_GPIO_WritePin(BOARD_LED_0_GPIO_Port, BOARD_LED_0_Pin, GPIO_PIN_RESET);
+//	    osDelay(10);
+//	    HAL_GPIO_WritePin(BOARD_LED_0_GPIO_Port, BOARD_LED_0_Pin, GPIO_PIN_SET);
+//	    osDelay(1990);
   }
   /* USER CODE END taskHeartbeatStart */
 }
