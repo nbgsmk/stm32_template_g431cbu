@@ -47,21 +47,21 @@ osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
   .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
+  .stack_size = 256 * 4
 };
 /* Definitions for taskHeartbeat */
 osThreadId_t taskHeartbeatHandle;
 const osThreadAttr_t taskHeartbeat_attributes = {
   .name = "taskHeartbeat",
   .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
+  .stack_size = 256 * 4
 };
 /* Definitions for myTask03 */
 osThreadId_t myTask03Handle;
 const osThreadAttr_t myTask03_attributes = {
   .name = "myTask03",
   .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
+  .stack_size = 256 * 4
 };
 /* Definitions for myQueue01 */
 osMessageQueueId_t myQueue01Handle;
@@ -73,40 +73,40 @@ osMessageQueueId_t myQueue02Handle;
 const osMessageQueueAttr_t myQueue02_attributes = {
   .name = "myQueue02"
 };
-/* Definitions for myTimer01 */
-osTimerId_t myTimer01Handle;
-const osTimerAttr_t myTimer01_attributes = {
-  .name = "myTimer01"
+/* Definitions for timer01 */
+osTimerId_t timer01Handle;
+const osTimerAttr_t timer01_attributes = {
+  .name = "timer01"
 };
-/* Definitions for myTimer02 */
-osTimerId_t myTimer02Handle;
-const osTimerAttr_t myTimer02_attributes = {
-  .name = "myTimer02"
+/* Definitions for timer02 */
+osTimerId_t timer02Handle;
+const osTimerAttr_t timer02_attributes = {
+  .name = "timer02"
 };
-/* Definitions for myMutex01 */
-osMutexId_t myMutex01Handle;
-const osMutexAttr_t myMutex01_attributes = {
-  .name = "myMutex01"
+/* Definitions for mutex01 */
+osMutexId_t mutex01Handle;
+const osMutexAttr_t mutex01_attributes = {
+  .name = "mutex01"
 };
-/* Definitions for myMutex02 */
-osMutexId_t myMutex02Handle;
-const osMutexAttr_t myMutex02_attributes = {
-  .name = "myMutex02"
+/* Definitions for mutex02 */
+osMutexId_t mutex02Handle;
+const osMutexAttr_t mutex02_attributes = {
+  .name = "mutex02"
 };
-/* Definitions for myBinarySem01 */
-osSemaphoreId_t myBinarySem01Handle;
-const osSemaphoreAttr_t myBinarySem01_attributes = {
-  .name = "myBinarySem01"
+/* Definitions for semaphore01 */
+osSemaphoreId_t semaphore01Handle;
+const osSemaphoreAttr_t semaphore01_attributes = {
+  .name = "semaphore01"
 };
-/* Definitions for myBinarySem02 */
-osSemaphoreId_t myBinarySem02Handle;
-const osSemaphoreAttr_t myBinarySem02_attributes = {
-  .name = "myBinarySem02"
+/* Definitions for semaphore02 */
+osSemaphoreId_t semaphore02Handle;
+const osSemaphoreAttr_t semaphore02_attributes = {
+  .name = "semaphore02"
 };
-/* Definitions for myEvent01 */
-osEventFlagsId_t myEvent01Handle;
-const osEventFlagsAttr_t myEvent01_attributes = {
-  .name = "myEvent01"
+/* Definitions for event01 */
+osEventFlagsId_t event01Handle;
+const osEventFlagsAttr_t event01_attributes = {
+  .name = "event01"
 };
 /* USER CODE BEGIN PV */
 
@@ -118,8 +118,8 @@ static void MX_GPIO_Init(void);
 void StartDefaultTask(void *argument);
 void taskHeartbeatStart(void *argument);
 void StartTask03(void *argument);
-void Timer01Callback(void *argument);
-void Timer02Callback(void *argument);
+void timer01Callback(void *argument);
+void timer02Callback(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -166,33 +166,33 @@ int main(void)
   /* Init scheduler */
   osKernelInitialize();
   /* Create the mutex(es) */
-  /* creation of myMutex01 */
-  myMutex01Handle = osMutexNew(&myMutex01_attributes);
+  /* creation of mutex01 */
+  mutex01Handle = osMutexNew(&mutex01_attributes);
 
-  /* creation of myMutex02 */
-  myMutex02Handle = osMutexNew(&myMutex02_attributes);
+  /* creation of mutex02 */
+  mutex02Handle = osMutexNew(&mutex02_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
   /* Create the semaphores(s) */
-  /* creation of myBinarySem01 */
-  myBinarySem01Handle = osSemaphoreNew(1, 1, &myBinarySem01_attributes);
+  /* creation of semaphore01 */
+  semaphore01Handle = osSemaphoreNew(1, 1, &semaphore01_attributes);
 
-  /* creation of myBinarySem02 */
-  myBinarySem02Handle = osSemaphoreNew(1, 1, &myBinarySem02_attributes);
+  /* creation of semaphore02 */
+  semaphore02Handle = osSemaphoreNew(1, 1, &semaphore02_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* Create the timer(s) */
-  /* creation of myTimer01 */
-  myTimer01Handle = osTimerNew(Timer01Callback, osTimerPeriodic, NULL, &myTimer01_attributes);
+  /* creation of timer01 */
+  timer01Handle = osTimerNew(timer01Callback, osTimerPeriodic, NULL, &timer01_attributes);
 
-  /* creation of myTimer02 */
-  myTimer02Handle = osTimerNew(Timer02Callback, osTimerPeriodic, NULL, &myTimer02_attributes);
+  /* creation of timer02 */
+  timer02Handle = osTimerNew(timer02Callback, osTimerPeriodic, NULL, &timer02_attributes);
 
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
@@ -223,8 +223,8 @@ int main(void)
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
-  /* creation of myEvent01 */
-  myEvent01Handle = osEventFlagsNew(&myEvent01_attributes);
+  /* creation of event01 */
+  event01Handle = osEventFlagsNew(&event01_attributes);
 
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
@@ -374,20 +374,20 @@ void StartTask03(void *argument)
   /* USER CODE END StartTask03 */
 }
 
-/* Timer01Callback function */
-void Timer01Callback(void *argument)
+/* timer01Callback function */
+void timer01Callback(void *argument)
 {
-  /* USER CODE BEGIN Timer01Callback */
+  /* USER CODE BEGIN timer01Callback */
 
-  /* USER CODE END Timer01Callback */
+  /* USER CODE END timer01Callback */
 }
 
-/* Timer02Callback function */
-void Timer02Callback(void *argument)
+/* timer02Callback function */
+void timer02Callback(void *argument)
 {
-  /* USER CODE BEGIN Timer02Callback */
+  /* USER CODE BEGIN timer02Callback */
 
-  /* USER CODE END Timer02Callback */
+  /* USER CODE END timer02Callback */
 }
 
 /**
